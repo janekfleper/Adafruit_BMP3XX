@@ -387,6 +387,46 @@ bool Adafruit_BMP3XX::performReading(void) {
 
 /**************************************************************************/
 /*!
+    @brief  Setter for the power mode
+    @param  mode Power mode setting, can be BMP3_MODE_SLEEP,
+   BMP3_MODE_FORCED, BMP3_MODE_NORMAL
+    @return True on success, False on failure
+*/
+/**************************************************************************/
+
+bool Adafruit_BMP3XX::setPowerMode(uint8_t mode) {
+  if (mode > BMP3_MODE_NORMAL)
+    return false;
+
+  int8_t rslt;
+  the_sensor.settings.op_mode = mode;
+
+#ifdef BMP3XX_DEBUG
+  Serial.println(F("Setting power mode"));
+#endif
+  rslt = bmp3_set_op_mode(&the_sensor);
+  if (rslt != BMP3_OK)
+    return false;
+
+  return true;
+}
+
+/**************************************************************************/
+/*!
+    @brief  Getter for the power mode
+    @return Power mode setting, can be BMP3_MODE_SLEEP,
+   BMP3_MODE_FORCED, BMP3_MODE_NORMAL
+*/
+/**************************************************************************/
+
+uint8_t Adafruit_BMP3XX::getPowerMode(void) {
+	uint8_t mode;
+	bmp3_get_op_mode(&mode, &the_sensor);
+	return mode;
+}
+
+/**************************************************************************/
+/*!
     @brief  Setter for Temperature oversampling
     @param  oversample Oversampling setting, can be BMP3_NO_OVERSAMPLING,
    BMP3_OVERSAMPLING_2X, BMP3_OVERSAMPLING_4X, BMP3_OVERSAMPLING_8X,
