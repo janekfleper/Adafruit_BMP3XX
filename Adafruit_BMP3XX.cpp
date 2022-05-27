@@ -234,9 +234,7 @@ bool Adafruit_BMP3XX::_init(void) {
   setPressureOversampling(BMP3_NO_OVERSAMPLING);
   setIIRFilterCoeff(BMP3_IIR_FILTER_DISABLE);
   setOutputDataRate(BMP3_ODR_25_HZ);
-
-  // don't do anything till we request a reading
-  the_sensor.settings.op_mode = BMP3_MODE_FORCED;
+  setPowerMode(BMP3_MODE_SLEEP);
 
   return true;
 }
